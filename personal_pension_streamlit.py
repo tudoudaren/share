@@ -83,12 +83,34 @@ def calculate_comparison(rate, years, tax_rate):
 # 页面配置
 st.set_page_config(page_title="养老金收益计算器", page_icon="💰", layout="wide")
 
-# 侧边栏输入
+# 侧边栏输入设置
 with st.sidebar:
     st.header("计算参数设置")
-    years = st.number_input("距退休缴纳年数", min_value=1, value=10, step=1)
-    tax_rate = st.selectbox("退税税率", options=[0,3,10,20,25,30,35,45], format_func=lambda x: f"{x}%")
-    rate = st.number_input("存款利率（%）", min_value=0.0, value=3.0, step=0.1)
+    # 缴费年份（默认20年）
+    years = st.number_input(
+        "距退休缴纳年数",
+        min_value=1,
+        value=20,  # 新增默认值
+        step=1,
+        help="预计继续缴纳养老金的年数"
+    )
+
+    # 存款利率（默认1.9%）
+    rate = st.number_input(
+        "定存利率（%）",
+        min_value=0.0,
+        value=1.9,  # 新增默认值
+        step=0.1,
+        format="%.1f",
+        help="银行定期存款或理财产品的预期年化收益率"
+    )
+
+    tax_rate = st.selectbox(
+        "退税税率",
+        options=[0, 3, 10, 20, 25, 30, 35, 45],
+        format_func=lambda x: f"{x}%",
+        index=1  # 默认选中3%
+    )
 
 # 主内容区域
 st.title("💰 12000每年个人养老金VS定存收益计算器")
